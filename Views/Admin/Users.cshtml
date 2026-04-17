@@ -1,0 +1,14 @@
+@model IEnumerable<ders_programi_yonetim_sistemi.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Kullanıcılar";
+}
+<h2>Kullanıcılar</h2>
+<table class="table table-striped">
+    <thead><tr><th>Kullanıcı Adı</th><th>E-posta</th><th>Bağlı Hoca</th></tr></thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr><td>@item.UserName</td><td>@item.Email</td><td>@item.Instructor?.FullName</td></tr>
+    }
+    </tbody>
+</table>

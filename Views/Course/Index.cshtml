@@ -1,0 +1,26 @@
+@model IEnumerable<ders_programi_yonetim_sistemi.Models.Course>
+@{
+    ViewData["Title"] = "Dersler";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Dersler</h2>
+    <a asp-action="Create" class="btn btn-primary">Yeni Ders</a>
+</div>
+
+<table class="table table-striped">
+    <thead><tr><th>Ders</th><th>Hoca</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Instructor?.FullName</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Sil</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

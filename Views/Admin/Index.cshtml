@@ -1,0 +1,11 @@
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+<h2>Admin Panel</h2>
+<div class="row g-3 mb-3">
+    <div class="col-md-4"><div class="card"><div class="card-body"><h5>Kullanıcı</h5><p class="fs-4">@ViewBag.UserCount</p></div></div></div>
+    <div class="col-md-4"><div class="card"><div class="card-body"><h5>Ders</h5><p class="fs-4">@ViewBag.CourseCount</p></div></div></div>
+    <div class="col-md-4"><div class="card"><div class="card-body"><h5>Program</h5><p class="fs-4">@ViewBag.ScheduleCount</p></div></div></div>
+</div>
+<a asp-action="Users" class="btn btn-outline-primary">Kullanıcılar</a>
+<a asp-action="Courses" class="btn btn-outline-primary">Dersler</a>

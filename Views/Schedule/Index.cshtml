@@ -1,0 +1,44 @@
+@model IEnumerable<ders_programi_yonetim_sistemi.Models.Schedule>
+@{
+    ViewData["Title"] = "Ders Programı";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Ders Programı</h2>
+    @if (User.IsInRole("Admin") || User.IsInRole("Instructor"))
+    {
+        <a asp-action="Create" class="btn btn-primary">Yeni Ders Ekle</a>
+    }
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Gün</th><th>Saat</th><th>Sınıf</th><th>Derslik</th><th>Ders</th><th>Hoca</th>
+            @if (User.IsInRole("Admin") || User.IsInRole("Instructor"))
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Day?.Name</td>
+            <td>@item.TimeSlot?.DisplayName</td>
+            <td>@item.ClassModel?.Name</td>
+            <td>@item.Classroom?.Name</td>
+            <td>@item.Course?.Name</td>
+            <td>@item.Instructor?.FullName</td>
+            @if (User.IsInRole("Admin") || User.IsInRole("Instructor"))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Sil</a>
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
