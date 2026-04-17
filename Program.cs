@@ -1,5 +1,6 @@
 using ders_programi_yonetim_sistemi.Data;
 using ders_programi_yonetim_sistemi.Models;
+using ders_programi_yonetim_sistemi.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +19,8 @@ builder.Services
         options.SignIn.RequireConfirmedAccount = false;
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()
+    .AddErrorDescriber<TurkishIdentityErrorDescriber>();
 
 builder.Services.AddControllersWithViews();
 

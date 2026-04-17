@@ -2,9 +2,11 @@ using ders_programi_yonetim_sistemi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ders_programi_yonetim_sistemi.Controllers;
 
+[Authorize]
 public class AccountController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
@@ -86,6 +88,80 @@ public class AccountController : Controller
         }
 
         return View(model);
+    }
+
+    public async Task<IActionResult> Profile()
+    {
+        var user = await _userManager.Users.Include(u => u.Instructor).FirstOrDefaultAsync(u => u.UserName == User.Identity!.Name);
+        if (user == null) return NotFound();
+
+        var roles = await _userManager.GetRolesAsync(user);
+        var model = new ProfileViewModel
+        {
+            UserName = user.UserName!,
+            Email = user.Email!,
+            FullName = user.FullName,
+            InstructorName = user.Instructor?.FullName,
+            Roles = roles
+        };
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Profile(ProfileViewModel model)
+    {
+        var user = await _userManager.Users.Include(u => u.Instructor).FirstOrDefaultAsync(u => u.UserName == User.Identity!.Name);
+        if (user == null) return NotFound();
+
+        // Always re-populate readonly fields for redisplay
+        model.UserName = user.UserName!;
+        model.InstructorName = user.Instructor?.FullName;
+        model.Roles = await _userManager.GetRolesAsync(user);
+
+        // Password change requested?
+        if (!string.IsNullOrWhiteSpace(model.NewPassword))
+        {
+            if (string.IsNullOrWhiteSpace(model.CurrentPassword))
+            {
+                ModelState.AddModelError(nameof(model.CurrentPassword), "Yeni parola belirlemek için mevcut parolayı girmelisiniz.");
+            }
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        user.Email = model.Email;
+        user.FullName = model.FullName;
+        var updateResult = await _userManager.UpdateAsync(user);
+        if (!updateResult.Succeeded)
+        {
+            foreach (var error in updateResult.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return View(model);
+        }
+
+        if (!string.IsNullOrWhiteSpace(model.NewPassword) && !string.IsNullOrWhiteSpace(model.CurrentPassword))
+        {
+            var changeResult = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (!changeResult.Succeeded)
+            {
+                foreach (var error in changeResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(model);
+            }
+
+            await _signInManager.RefreshSignInAsync(user);
+        }
+
+        TempData["Success"] = "Profil bilgileriniz güncellendi.";
+        return RedirectToAction(nameof(Profile));
     }
 
     [HttpPost]

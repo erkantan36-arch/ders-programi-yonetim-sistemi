@@ -30,10 +30,10 @@ public class ScheduleController : Controller
             .Include(s => s.ClassModel)
             .Include(s => s.Course)
             .Include(s => s.Instructor)
-            .OrderBy(s => s.DayId)
-            .ThenBy(s => s.TimeSlotId)
-            .ThenBy(s => s.ClassModel!.Name)
             .ToListAsync();
+
+        ViewBag.Days = await _context.Days.OrderBy(d => d.Id).ToListAsync();
+        ViewBag.TimeSlots = await _context.TimeSlots.OrderBy(t => t.Id).ToListAsync();
 
         return View(schedules);
     }

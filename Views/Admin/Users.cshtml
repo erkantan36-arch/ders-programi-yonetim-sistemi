@@ -1,14 +1,87 @@
 @model IEnumerable<ders_programi_yonetim_sistemi.Models.ApplicationUser>
 @{
     ViewData["Title"] = "Kullanıcılar";
+    var instructors = (SelectList)ViewBag.Instructors;
+    var userRoles = (Dictionary<string, IList<string>>)ViewBag.UserRoles;
+    var roles = (string[])ViewBag.Roles;
 }
 <h2>Kullanıcılar</h2>
-<table class="table table-striped">
-    <thead><tr><th>Kullanıcı Adı</th><th>E-posta</th><th>Bağlı Hoca</th></tr></thead>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Kullanıcı Adı</th>
+            <th>E-posta</th>
+            <th>Ad Soyad</th>
+            <th>Rol</th>
+            <th>Bağlı Hoca</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
     <tbody>
     @foreach (var item in Model)
     {
-        <tr><td>@item.UserName</td><td>@item.Email</td><td>@item.Instructor?.FullName</td></tr>
+        var currentRoles = userRoles[item.Id];
+        <tr>
+            <td>@item.UserName</td>
+            <td>@item.Email</td>
+            <td>@item.FullName</td>
+            <td>@string.Join(", ", currentRoles)</td>
+            <td>@(item.Instructor?.FullName ?? "—")</td>
+            <td>
+                <div class="d-flex gap-1 flex-wrap">
+                    @* Hoca atama *@
+                    <form asp-action="AssignInstructor" method="post" class="d-flex gap-1">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="userId" value="@item.Id" />
+                        <select name="instructorId" class="form-select form-select-sm" style="min-width:180px">
+                            <option value="">— Hoca Seç —</option>
+                            @foreach (SelectListItem opt in instructors)
+                            {
+                                if (item.InstructorId?.ToString() == opt.Value)
+                                {
+                                    <option value="@opt.Value" selected>@opt.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@opt.Value">@opt.Text</option>
+                                }
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-outline-primary">Ata</button>
+                    </form>
+
+                    @* Rol değiştirme *@
+                    <form asp-action="ChangeRole" method="post" class="d-flex gap-1">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="userId" value="@item.Id" />
+                        <select name="role" class="form-select form-select-sm">
+                            @foreach (var r in roles)
+                            {
+                                if (currentRoles.Contains(r))
+                                {
+                                    <option value="@r" selected>@r</option>
+                                }
+                                else
+                                {
+                                    <option value="@r">@r</option>
+                                }
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">Rol</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
     }
     </tbody>
 </table>
+<a asp-action="Index" class="btn btn-secondary">← Admin Paneline Dön</a>
