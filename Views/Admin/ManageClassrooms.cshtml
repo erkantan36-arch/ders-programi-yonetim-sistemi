@@ -1,0 +1,4 @@
+@model IEnumerable<ders_programi_yonetim_sistemi.Models.Classroom>
+@{ ViewData["Title"] = "Derslikleri Yönet"; }
+<h2>Derslikler</h2>
+<table class="table"><thead><tr><th>Ad</th><th>Kapasite</th><th>Tür</th></tr></thead><tbody>@foreach (var i in Model){<tr><td>@i.Name</td><td>@i.Capacity</td><td>@(i.IsAmphi ? "Anfi" : "Derslik")</td></tr>}</tbody></table>

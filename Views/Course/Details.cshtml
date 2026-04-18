@@ -1,0 +1,10 @@
+@model ders_programi_yonetim_sistemi.Models.Course
+@{ ViewData["Title"] = "Ders Detayı"; }
+
+<h2>Ders Detayı</h2>
+<ul class="list-group">
+    <li class="list-group-item"><strong>Kod:</strong> @Model.Code</li>
+    <li class="list-group-item"><strong>Ad:</strong> @Model.Name</li>
+    <li class="list-group-item"><strong>Kredi:</strong> @Model.Credit</li>
+</ul>
+<a asp-action="Index" class="btn btn-secondary mt-3">Geri</a>

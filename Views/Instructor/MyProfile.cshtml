@@ -1,0 +1,11 @@
+@model ders_programi_yonetim_sistemi.ViewModels.ProfileViewModel
+@{ ViewData["Title"] = "Profilim"; }
+
+<h2>Profilim</h2>
+<ul class="list-group mb-3">
+    <li class="list-group-item"><strong>Ad Soyad:</strong> @Model.FullName</li>
+    <li class="list-group-item"><strong>Unvan:</strong> @Model.Title</li>
+    <li class="list-group-item"><strong>Bölüm:</strong> @Model.Department</li>
+    <li class="list-group-item"><strong>Telefon:</strong> @Model.PhoneNumber</li>
+</ul>
+<a asp-action="EditProfile" class="btn btn-primary">Profili Düzenle</a>

@@ -1,0 +1,19 @@
+@model IEnumerable<ders_programi_yonetim_sistemi.Models.Schedule>
+@{ ViewData["Title"] = "Ders Programım"; }
+
+<h2>Ders Programım</h2>
+<table class="table table-bordered schedule-table">
+    <thead><tr><th>Gün</th><th>Saat</th><th>Ders</th><th>Sınıf</th><th>Derslik</th></tr></thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Day.Name</td>
+            <td>@item.TimeSlot.Label</td>
+            <td>@item.Course.Name</td>
+            <td>@item.ClassModel.Name</td>
+            <td>@item.Classroom.Name</td>
+        </tr>
+    }
+    </tbody>
+</table>

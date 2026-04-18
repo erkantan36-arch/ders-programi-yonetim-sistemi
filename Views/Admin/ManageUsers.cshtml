@@ -1,0 +1,16 @@
+@model IEnumerable<ders_programi_yonetim_sistemi.Models.ApplicationUser>
+@{ ViewData["Title"] = "Kullanıcı Yönetimi"; var roles = (Dictionary<string, IList<string>>)ViewBag.UserRoles; }
+<h2>Kullanıcılar</h2>
+<table class="table table-striped">
+    <thead><tr><th>Ad Soyad</th><th>E-posta</th><th>Rol</th></tr></thead>
+    <tbody>
+    @foreach (var u in Model)
+    {
+        <tr>
+            <td>@u.FullName</td>
+            <td>@u.Email</td>
+            <td>@string.Join(", ", roles[u.Id])</td>
+        </tr>
+    }
+    </tbody>
+</table>

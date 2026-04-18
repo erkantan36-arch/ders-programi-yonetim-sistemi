@@ -1,0 +1,4 @@
+@model IEnumerable<ders_programi_yonetim_sistemi.Models.Instructor>
+@{ ViewData["Title"] = "Hocaları Yönet"; }
+<h2>Hocalar</h2>
+<table class="table"><thead><tr><th>Ad Soyad</th><th>Unvan</th><th>E-posta</th></tr></thead><tbody>@foreach (var i in Model){<tr><td>@i.FullName</td><td>@i.Title</td><td>@i.Email</td></tr>}</tbody></table>
