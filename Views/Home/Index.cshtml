@@ -1,0 +1,32 @@
+@model ders_programi_yonetim_sistemi.ViewModels.HomeDashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="card stat-card"><div class="card-body"><h6>Ders</h6><h3>@Model.TotalCourses</h3></div></div></div>
+    <div class="col-md-3"><div class="card stat-card"><div class="card-body"><h6>Hoca</h6><h3>@Model.TotalInstructors</h3></div></div></div>
+    <div class="col-md-3"><div class="card stat-card"><div class="card-body"><h6>Sınıf</h6><h3>@Model.TotalClasses</h3></div></div></div>
+    <div class="col-md-3"><div class="card stat-card"><div class="card-body"><h6>Program Kaydı</h6><h3>@Model.TotalSchedules</h3></div></div></div>
+</div>
+
+<div class="card">
+    <div class="card-header">Yaklaşan Dersler</div>
+    <div class="table-responsive">
+        <table class="table table-striped mb-0">
+            <thead><tr><th>Gün</th><th>Saat</th><th>Sınıf</th><th>Ders</th><th>Hoca</th></tr></thead>
+            <tbody>
+            @foreach (var item in Model.UpcomingSchedules)
+            {
+                <tr>
+                    <td>@item.Day.Name</td>
+                    <td>@item.TimeSlot.Label</td>
+                    <td>@item.ClassModel.Name</td>
+                    <td>@item.Course.Name</td>
+                    <td>@item.Instructor.FullName</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

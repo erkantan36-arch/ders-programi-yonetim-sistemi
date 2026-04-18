@@ -1,0 +1,21 @@
+@using Microsoft.AspNetCore.Identity
+@using ders_programi_yonetim_sistemi.Models
+@inject SignInManager<ApplicationUser> SignInManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Profile">@User.Identity?.Name</a></li>
+    <li class="nav-item">
+        <form asp-controller="Account" asp-action="Logout" method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-link nav-link">Çıkış</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register">Kayıt</a></li>
+    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Giriş</a></li>
+}
+</ul>

@@ -1,0 +1,18 @@
+@model ders_programi_yonetim_sistemi.Models.Schedule
+@{
+    ViewData["Title"] = "Program Kaydını Sil";
+}
+
+<h2>Program Kaydını Sil</h2>
+<div class="alert alert-warning">Bu kayıt silinecek. Emin misiniz?</div>
+<ul class="list-group mb-3">
+    <li class="list-group-item"><strong>Gün:</strong> @Model.Day.Name</li>
+    <li class="list-group-item"><strong>Saat:</strong> @Model.TimeSlot.Label</li>
+    <li class="list-group-item"><strong>Ders:</strong> @Model.Course.Name</li>
+    <li class="list-group-item"><strong>Hoca:</strong> @Model.Instructor.FullName</li>
+</ul>
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger" type="submit">Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">İptal</a>
+</form>

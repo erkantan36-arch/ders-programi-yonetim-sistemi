@@ -1,0 +1,10 @@
+@model ders_programi_yonetim_sistemi.ViewModels.ProfileViewModel
+@{ ViewData["Title"] = "Profil"; }
+
+<h2>Profil</h2>
+<ul class="list-group">
+    <li class="list-group-item"><strong>Ad Soyad:</strong> @Model.FullName</li>
+    <li class="list-group-item"><strong>Unvan:</strong> @Model.Title</li>
+    <li class="list-group-item"><strong>Bölüm:</strong> @Model.Department</li>
+    <li class="list-group-item"><strong>Telefon:</strong> @Model.PhoneNumber</li>
+</ul>

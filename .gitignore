@@ -1,0 +1,12 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+appsettings.Local.json
+secrets.json
+node_modules/
+dist/
+*.db
+*.db-shm
+*.db-wal

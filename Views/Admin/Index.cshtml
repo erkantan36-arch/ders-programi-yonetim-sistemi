@@ -1,0 +1,15 @@
+@{ ViewData["Title"] = "Admin Paneli"; }
+
+<h2>Admin Paneli</h2>
+<div class="row g-3 mb-3">
+    <div class="col-md-3"><div class="card"><div class="card-body"><h6>Toplam Kullanıcı</h6><h4>@ViewBag.TotalUsers</h4></div></div></div>
+    <div class="col-md-3"><div class="card"><div class="card-body"><h6>Program Kayıtları</h6><h4>@ViewBag.TotalSchedules</h4></div></div></div>
+</div>
+<div class="list-group">
+    <a asp-action="ManageDays" class="list-group-item list-group-item-action">Günleri Yönet</a>
+    <a asp-action="ManageClassrooms" class="list-group-item list-group-item-action">Derslikleri Yönet</a>
+    <a asp-action="ManageTimeSlots" class="list-group-item list-group-item-action">Saatleri Yönet</a>
+    <a asp-action="ManageClasses" class="list-group-item list-group-item-action">Sınıfları Yönet</a>
+    <a asp-action="ManageInstructors" class="list-group-item list-group-item-action">Hocaları Yönet</a>
+    <a asp-action="ManageUsers" class="list-group-item list-group-item-action">Kullanıcı Yönetimi</a>
+</div>

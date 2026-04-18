@@ -1,0 +1,4 @@
+@model IEnumerable<ders_programi_yonetim_sistemi.Models.Day>
+@{ ViewData["Title"] = "Günleri Yönet"; }
+<h2>Günler</h2>
+<table class="table"><thead><tr><th>Sıra</th><th>Gün</th></tr></thead><tbody>@foreach (var i in Model){<tr><td>@i.Order</td><td>@i.Name</td></tr>}</tbody></table>

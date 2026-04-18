@@ -1,0 +1,4 @@
+@model IEnumerable<ders_programi_yonetim_sistemi.Models.TimeSlot>
+@{ ViewData["Title"] = "Saatleri Yönet"; }
+<h2>Saatler</h2>
+<table class="table"><thead><tr><th>Saat Aralığı</th></tr></thead><tbody>@foreach (var i in Model){<tr><td>@i.Label</td></tr>}</tbody></table>
