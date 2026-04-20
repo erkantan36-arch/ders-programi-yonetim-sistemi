@@ -98,6 +98,22 @@ public static class DbInitializer
         await EnsureUserAsync(userManager, "ozlem", "ozlem@dpy.com", "Instructor123!", "Instructor", 1, "Prof. Dr. Özlem KARABULUTLU");
         await EnsureUserAsync(userManager, "dogan", "dogan@dpy.com", "Instructor123!", "Instructor", 2, "Doç. Dr. Doğan AKÇA");
         await EnsureUserAsync(userManager, "viewer", "viewer@dpy.com", "Viewer123!", "Viewer", null, "Görüntüleyici Kullanıcı");
+
+        var usersWithInstructors = await context.Users
+            .Where(u => u.InstructorId.HasValue)
+            .Select(u => new { u.Id, InstructorId = u.InstructorId!.Value })
+            .ToListAsync();
+
+        foreach (var item in usersWithInstructors)
+        {
+            var instructor = await context.Instructors.FindAsync(item.InstructorId);
+            if (instructor != null && string.IsNullOrEmpty(instructor.UserId))
+            {
+                instructor.UserId = item.Id;
+            }
+        }
+
+        await context.SaveChangesAsync();
     }
 
     private static async Task<bool> TableExistsAsync(ApplicationDbContext context, string tableName)

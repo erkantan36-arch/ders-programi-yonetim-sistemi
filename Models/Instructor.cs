@@ -9,6 +9,9 @@ public class Instructor
     [Required, StringLength(150)]
     public string FullName { get; set; } = string.Empty;
 
+    public string? UserId { get; set; }
+    public ApplicationUser? User { get; set; }
+
     public ICollection<Course> Courses { get; set; } = new List<Course>();
     public ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 }

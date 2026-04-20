@@ -26,6 +26,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Day>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<Classroom>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<ClassModel>().HasIndex(x => x.Name).IsUnique();
+        builder.Entity<Instructor>().HasIndex(x => x.UserId).IsUnique();
 
         builder.Entity<Course>()
             .HasOne(x => x.Instructor)
@@ -73,6 +74,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(x => x.Instructor)
             .WithMany()
             .HasForeignKey(x => x.InstructorId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<Instructor>()
+            .HasOne(x => x.User)
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.SetNull);
     }
 }

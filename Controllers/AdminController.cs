@@ -2,8 +2,9 @@ using ders_programi_yonetim_sistemi.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using ders_programi_yonetim_sistemi.Models;
 
 namespace ders_programi_yonetim_sistemi.Controllers;
 
@@ -11,9 +12,9 @@ namespace ders_programi_yonetim_sistemi.Controllers;
 public class AdminController : Controller
 {
     private readonly ApplicationDbContext _context;
-    private readonly UserManager<Models.ApplicationUser> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public AdminController(ApplicationDbContext context, UserManager<Models.ApplicationUser> userManager)
+    public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
     {
         _context = context;
         _userManager = userManager;
@@ -56,6 +57,16 @@ public class AdminController : Controller
         user.InstructorId = instructorId;
         await _userManager.UpdateAsync(user);
 
+        if (instructorId.HasValue)
+        {
+            var instructor = await _context.Instructors.FindAsync(instructorId.Value);
+            if (instructor != null && string.IsNullOrEmpty(instructor.UserId))
+            {
+                instructor.UserId = user.Id;
+                await _context.SaveChangesAsync();
+            }
+        }
+
         TempData["Success"] = $"'{user.UserName}' için hoca ataması güncellendi.";
         return RedirectToAction(nameof(Users));
     }
@@ -74,6 +85,16 @@ public class AdminController : Controller
         await _userManager.RemoveFromRolesAsync(user, currentRoles);
         await _userManager.AddToRoleAsync(user, role);
 
+        if (role == "Instructor")
+        {
+            var instructor = await EnsureInstructorForUserAsync(user);
+            if (user.InstructorId != instructor.Id)
+            {
+                user.InstructorId = instructor.Id;
+                await _userManager.UpdateAsync(user);
+            }
+        }
+
         TempData["Success"] = $"'{user.UserName}' kullanıcısının rolü '{role}' olarak güncellendi.";
         return RedirectToAction(nameof(Users));
     }
@@ -82,5 +103,38 @@ public class AdminController : Controller
     {
         var courses = await _context.Courses.Include(c => c.Instructor).OrderBy(c => c.Name).ToListAsync();
         return View(courses);
+    }
+
+    private async Task<Instructor> EnsureInstructorForUserAsync(ApplicationUser user)
+    {
+        if (user.InstructorId.HasValue)
+        {
+            var linkedInstructor = await _context.Instructors.FindAsync(user.InstructorId.Value);
+            if (linkedInstructor != null)
+            {
+                if (linkedInstructor.UserId != user.Id)
+                {
+                    linkedInstructor.UserId = user.Id;
+                    await _context.SaveChangesAsync();
+                }
+                return linkedInstructor;
+            }
+        }
+
+        var instructor = await _context.Instructors.FirstOrDefaultAsync(i => i.UserId == user.Id);
+        if (instructor != null)
+        {
+            return instructor;
+        }
+
+        instructor = new Instructor
+        {
+            FullName = !string.IsNullOrWhiteSpace(user.FullName) ? user.FullName : user.UserName ?? user.Email ?? "Yeni Eğitici",
+            UserId = user.Id
+        };
+
+        _context.Instructors.Add(instructor);
+        await _context.SaveChangesAsync();
+        return instructor;
     }
 }
