@@ -1,0 +1,12 @@
+@model ders_programi_yonetim_sistemi.Models.Course
+@{
+    ViewData["Title"] = "Ders Sil";
+}
+<h2>Ders Sil</h2>
+<p><strong>@Model.Name</strong> dersi silinsin mi?</p>
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">Vazgeç</a>
+</form>
