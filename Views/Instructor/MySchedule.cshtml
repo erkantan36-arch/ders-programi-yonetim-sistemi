@@ -1,0 +1,22 @@
+@model IEnumerable<ders_programi_yonetim_sistemi.Models.Schedule>
+@{
+    ViewData["Title"] = "Programım";
+}
+<h2>Hoca Ders Programı</h2>
+<table class="table table-striped">
+    <thead>
+        <tr><th>Gün</th><th>Saat</th><th>Sınıf</th><th>Derslik</th><th>Ders</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Day?.Name</td>
+            <td>@item.TimeSlot?.DisplayName</td>
+            <td>@item.ClassModel?.Name</td>
+            <td>@item.Classroom?.Name</td>
+            <td>@item.Course?.Name</td>
+        </tr>
+    }
+    </tbody>
+</table>
