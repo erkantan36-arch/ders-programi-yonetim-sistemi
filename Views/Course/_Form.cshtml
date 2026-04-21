@@ -1,0 +1,26 @@
+@model ders_programi_yonetim_sistemi.Models.Course
+
+<form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" method="post">
+    @Html.AntiForgeryToken()
+    @if (Model.Id != 0)
+    {
+        <input type="hidden" asp-for="Id" />
+    }
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="InstructorId" class="form-label"></label>
+        <select asp-for="InstructorId" asp-items="ViewBag.InstructorId" class="form-select"></select>
+        <span asp-validation-for="InstructorId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <a asp-action="Index" class="btn btn-secondary">Geri</a>
+</form>

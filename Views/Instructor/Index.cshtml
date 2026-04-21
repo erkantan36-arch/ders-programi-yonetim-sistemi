@@ -1,0 +1,14 @@
+@model IEnumerable<ders_programi_yonetim_sistemi.Models.Instructor>
+@{
+    ViewData["Title"] = "Hocalar";
+}
+<h2>Hocalar</h2>
+<table class="table table-striped">
+    <thead><tr><th>Ad Soyad</th></tr></thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr><td>@item.FullName</td></tr>
+    }
+    </tbody>
+</table>

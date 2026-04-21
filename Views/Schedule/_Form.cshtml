@@ -1,0 +1,63 @@
+@model ders_programi_yonetim_sistemi.Models.Schedule
+
+<form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" method="post">
+    @Html.AntiForgeryToken()
+    @if (Model.Id != 0)
+    {
+        <input type="hidden" asp-for="Id" />
+    }
+
+    @if (!ViewData.ModelState.IsValid && ViewData.ModelState[string.Empty]?.Errors.Count > 0)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Hata:</strong>
+            @foreach (var error in ViewData.ModelState[string.Empty]!.Errors)
+            {
+                <div>@error.ErrorMessage</div>
+            }
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none" role="alert"></div>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label asp-for="DayId" class="form-label"></label>
+            <select asp-for="DayId" asp-items="ViewBag.DayId" class="form-select"></select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Saatler (Birden fazla seçebilirsiniz)</label>
+            <div class="border p-3 rounded" style="max-height: 300px; overflow-y: auto;">
+                @{
+                    var timeSlots = ViewBag.TimeSlots as List<ders_programi_yonetim_sistemi.Models.TimeSlot>;
+                    var selectedTimeSlotIds = ViewBag.SelectedTimeSlotIds as List<int> ?? new List<int>();
+
+                    if (timeSlots != null && timeSlots.Count > 0)
+                    {
+                        foreach (var slot in timeSlots)
+                        {
+                            bool isSelected = selectedTimeSlotIds.Contains(slot.Id);
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="TimeSlotIds"
+                                       value="@slot.Id" id="slot_@slot.Id" @(isSelected ? "checked" : "")>
+                                <label class="form-check-label" for="slot_@slot.Id">
+                                    @slot.StartTime - @slot.EndTime
+                                </label>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-md-4"><label asp-for="ClassModelId" class="form-label"></label><select asp-for="ClassModelId" asp-items="ViewBag.ClassModelId" class="form-select"></select></div>
+        <div class="col-md-4"><label asp-for="ClassroomId" class="form-label"></label><select asp-for="ClassroomId" asp-items="ViewBag.ClassroomId" class="form-select"></select></div>
+        <div class="col-md-4"><label asp-for="CourseId" class="form-label"></label><select asp-for="CourseId" asp-items="ViewBag.CourseId" class="form-select"></select><span asp-validation-for="CourseId" class="text-danger small"></span></div>
+        <div class="col-md-4"><label asp-for="InstructorId" class="form-label"></label><select asp-for="InstructorId" asp-items="ViewBag.InstructorId" class="form-select"></select></div>
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+        <a asp-action="Index" class="btn btn-secondary">Geri</a>
+    </div>
+</form>

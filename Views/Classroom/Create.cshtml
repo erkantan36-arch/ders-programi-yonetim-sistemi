@@ -1,0 +1,24 @@
+@model ders_programi_yonetim_sistemi.Models.Classroom
+@{
+    ViewData["Title"] = "Yeni Derslik";
+}
+
+<h2>Yeni Derslik</h2>
+
+<form asp-action="Create" method="post" class="mt-3" style="max-width:400px">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label fw-semibold"></label>
+        <input asp-for="Name" class="form-control" placeholder="örn. Derslik-9" />
+        <span asp-validation-for="Name" class="text-danger small"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <a asp-action="Index" class="btn btn-secondary">Geri</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

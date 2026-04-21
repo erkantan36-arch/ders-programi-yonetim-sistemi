@@ -1,0 +1,77 @@
+@model ders_programi_yonetim_sistemi.Models.ProfileViewModel
+@{
+    ViewData["Title"] = "Profilim";
+}
+
+<h2>Profilim</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<form asp-action="Profile" method="post" class="mt-3">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+    <div class="card mb-4">
+        <div class="card-header fw-bold">Temel Bilgiler</div>
+        <div class="card-body row g-3">
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Kullanıcı Adı</label>
+                <input class="form-control" value="@Model.UserName" readonly />
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Email" class="form-label fw-semibold"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="FullName" class="form-label fw-semibold"></label>
+                <input asp-for="FullName" class="form-control" />
+            </div>
+            @if (Model.InstructorName != null)
+            {
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Bağlı Hoca</label>
+                    <input class="form-control" value="@Model.InstructorName" readonly />
+                </div>
+            }
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Roller</label>
+                <input class="form-control" value="@string.Join(", ", Model.Roles)" readonly />
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header fw-bold">Parola Değiştir <span class="text-muted fw-normal small">(isteğe bağlı)</span></div>
+        <div class="card-body row g-3">
+            <div class="col-md-4">
+                <label asp-for="CurrentPassword" class="form-label fw-semibold"></label>
+                <input asp-for="CurrentPassword" class="form-control" autocomplete="current-password" />
+                <span asp-validation-for="CurrentPassword" class="text-danger small"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="NewPassword" class="form-label fw-semibold"></label>
+                <input asp-for="NewPassword" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="NewPassword" class="text-danger small"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="ConfirmNewPassword" class="form-label fw-semibold"></label>
+                <input asp-for="ConfirmNewPassword" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="ConfirmNewPassword" class="text-danger small"></span>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Geri</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
