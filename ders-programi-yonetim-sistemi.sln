@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37012.4 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ders-programi-yonetim-sistemi", "ders-programi-yonetim-sistemi.csproj", "{D8725BCC-821C-3DEE-7B25-6C8731BB8BDA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8725BCC-821C-3DEE-7B25-6C8731BB8BDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8725BCC-821C-3DEE-7B25-6C8731BB8BDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8725BCC-821C-3DEE-7B25-6C8731BB8BDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8725BCC-821C-3DEE-7B25-6C8731BB8BDA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7DB4A2E3-1C02-4FDE-B48A-A1CDD2F754D8}
+	EndGlobalSection
+EndGlobal
